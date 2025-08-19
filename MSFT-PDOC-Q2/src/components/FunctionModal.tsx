@@ -24,7 +24,7 @@ export const FunctionModal = ({ isOpen, onClose, functionType }: FunctionModalPr
     setIsLoadingServers(true);
     try {
       // Call Azure Function API to get SQL servers
-      const response = await fetch('/api/sql-servers');
+      const response = await fetch('https://dbsqllister-cjg7a6aedpatc0e0.centralindia-01.azurewebsites.net/api/ListDatabases?code=ke5ctPizi6eBJzZ4ttQ6FZiRU40LauVdbzGEMS48rX-lAzFuEW6j-w==');
       const servers = await response.json();
       setSqlServers(servers);
     } catch (error) {
