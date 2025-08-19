@@ -54,7 +54,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "MSFT-PDOC-Q2"       # 👈 your app source folder
-          output_location: "build"           # 👈 output of `npm run build`
+          output_location: "dist"           # 👈 output of `npm run build`
           github_id_token: ${{ steps.idtoken.outputs.result }}
 
   close_pull_request_job:
