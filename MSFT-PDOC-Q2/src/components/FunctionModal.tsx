@@ -21,25 +21,30 @@ export const FunctionModal = ({ isOpen, onClose, functionType }: FunctionModalPr
   const [isLoadingServers, setIsLoadingServers] = useState(false);
 
   const fetchSqlServers = async () => {
-    setIsLoadingServers(true);
-    try {
-      // Call Azure Function API to get SQL servers
-      const response = await fetch('https://dbsqllister-cjg7a6aedpatc0e0.centralindia-01.azurewebsites.net/api/ListDatabases?code=ke5ctPizi6eBJzZ4ttQ6FZiRU40LauVdbzGEMS48rX-lAzFuEW6j-w==');
-      const servers = await response.json();
-      setSqlServers(servers);
-    } catch (error) {
-      console.error('Failed to fetch SQL servers:', error);
-      // Fallback data for demo
-      setSqlServers([
-        { id: 'sql-prod-001', name: 'sql-prod-001.database.windows.net' },
-        { id: 'sql-dev-001', name: 'sql-dev-001.database.windows.net' },
-        { id: 'sql-test-001', name: 'sql-test-001.database.windows.net' },
-        { id: 'sql-staging-001', name: 'sql-staging-001.database.windows.net' },
-      ]);
-    } finally {
-      setIsLoadingServers(false);
-    }
-  };
+  setIsLoadingServers(true);
+  try {
+    const response = await fetch('https://dbsqllister-cjg7a6aedpatc0e0.centralindia-01.azurewebsites.net/api/ListDatabases?code=ke5ctPizi6eBJzZ4ttQ6FZiRU40LauVdbzGEMS48rX-lAzFuEW6j-w==');
+    const servers = await response.json();
+
+    // Map only managedInstance into id and name
+    const simplified = servers.map((server: any) => ({
+      id: server.managedInstance,
+      name: server.managedInstance
+    }));
+
+    setSqlServers(simplified);
+  } catch (error) {
+    console.error('Failed to fetch SQL servers:', error);
+    setSqlServers([
+      { id: 'sql-prod-001', name: 'sql-prod-001' },
+      { id: 'sql-dev-001', name: 'sql-dev-001' },
+      { id: 'sql-test-001', name: 'sql-test-001' },
+      { id: 'sql-staging-001', name: 'sql-staging-001' },
+    ]);
+  } finally {
+    setIsLoadingServers(false);
+  }
+};
 
   useEffect(() => {
     if (isOpen) {
